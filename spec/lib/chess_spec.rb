@@ -4,8 +4,10 @@ RSpec.describe Chess do
   describe '.play' do
     subject(:play) { described_class.play }
 
-    it { is_expected.to be_an(Array) }
-    it { expect(play.size).to eq(8) }
-    it { expect(play.map(&:size)).to all(be(8)) }
+    before do
+      allow($stdout).to receive(:write)
+    end
+
+    it { is_expected.to be_an(Chess::Board) }
   end
 end
