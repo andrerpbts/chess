@@ -5,14 +5,34 @@ module Chess
     @chessboard = Array.new(8) { Array.new(8) }
     @chessboard[0][0] = 'r'
 
-    @chessboard.each_with_index do |row, index|
-      print "#{8 - index}  "
-      row.each { |cell| print cell.nil? ? '  -  ' : "  #{cell}  " }
+    @chessboard.each_with_index do |rank, index|
+      rank_number = 8 - index
+
+      print '   '
+      8.times { print '+-------' }
+      print '+'
+      puts
+      print '   '
+      8.times { print '|       ' }
+      print '|'
+      puts
+      print "#{rank_number}  "
+      rank.each { |square| print square.nil? ? '|       ' : "|   #{square}   " }
+      print '|'
+      puts
+      print '   '
+      8.times { print '|       ' }
+      print '|'
       puts
     end
 
     print '   '
-    ('a'..'h').each { |letter| print "  #{letter}  " }
+    8.times { print '+-------' }
+    print '+'
+    puts
+    print '   '
+    ('a'..'h').each { |file_letter| print "    #{file_letter}   " }
+
     puts
 
     @chessboard
