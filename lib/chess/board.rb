@@ -7,15 +7,12 @@ module Chess
     end
 
     def render
-      draw_border
-
       squares.each_with_index do |rank, index|
         rank_number = 8 - index
 
-        draw_rank_spacing_row
+        draw_rank_spacing_row(rank_number)
         draw_rank_pieces_row(rank_number, rank)
-        draw_rank_spacing_row
-        draw_border
+        draw_rank_spacing_row(rank_number)
       end
 
       draw_files_labels
@@ -23,25 +20,35 @@ module Chess
 
     private
 
-    def draw_border
-      puts '    ' + '+-------' * 8 + '+'
+    def black
+      "\e[42m"
     end
 
-    def draw_rank_spacing_row
-      puts '    ' + '|       ' * 8 + '|'
+    def white
+      "\e[47m"
+    end
+
+    def reset
+      "\e[0m"
+    end
+
+    def draw_rank_spacing_row(rank_number)
+      puts '    ' + 8.times.map { |n| cycled(rank_number, n, '       ') }.join + reset
     end
 
     def draw_rank_pieces_row(rank_number, rank)
-      print "#{rank_number}   "
-      rank.each { |square| print square.piece.nil? ? '|       ' : "|   #{square.piece}   " }
-      print '|'
-      puts
+      files = rank.map.with_index { |s, n| cycled(rank_number, n, "   #{s.piece}   ") }.join
+
+      puts "#{rank_number}   " + files + reset
     end
 
     def draw_files_labels
-      print '   '
-      ('a'..'h').each { |file_letter| print "    #{file_letter}   " }
       puts
+      puts '    ' + ('a'..'h').map { |file_letter| "   #{file_letter}   " }.join + reset
+    end
+
+    def cycled(rank_number, n, str)
+      ((rank_number.even? && n.even?) || (rank_number.odd? && n.odd?) ? white : black) + str
     end
   end
 end
