@@ -21,11 +21,11 @@ module Chess
     private
 
     def black
-      "\e[42m"
+      "\e[1;42m"
     end
 
     def white
-      "\e[47m"
+      "\e[107m"
     end
 
     def reset
